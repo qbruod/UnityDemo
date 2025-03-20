@@ -3,13 +3,16 @@
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
 .utmp/
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Uu]ser[Ss]ettings/
+/Demo/[Ll]ibrary/
+/Demo/[Tt]emp/
+/Demo/[Oo]bj/
+/Demo/[Bb]uild/
+/Demo/[Bb]uilds/
+/Demo/[Ll]ogs/
+/Demo/[Uu]ser[Ss]ettings/
+/Demo/Assets/素材/
+/Demo/TextMesh Pro/
+
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
