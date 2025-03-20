@@ -22,7 +22,7 @@ public class NewBehaviourScript
     public static void CreateLoaclPackageData()
     {
         PackageLocalData.Instance.item = new List<PackageLoaclItem>();
-        for (int i = 1; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             PackageLoaclItem packageLoaclItem = new()
             {
@@ -31,9 +31,20 @@ public class NewBehaviourScript
                 type = 0,
                 num = i,
                 level = i,
+
             };
             PackageLocalData.Instance.item.Add(packageLoaclItem);
         }
+        PackageLoaclItem packageLoaclItem2 = new()
+        {
+            uid = Guid.NewGuid().ToString(),
+            id = 4,
+            type = 1,
+            num = 3,
+            level = 4,
+            WeaponDetailText = "攻击力+" + 4 * 0.5,
+        };
+        PackageLocalData.Instance.item.Add(packageLoaclItem2);
         PackageLocalData.Instance.SavePackage();
     }
 

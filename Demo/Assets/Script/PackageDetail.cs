@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using test;
+using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
 
 public class PackageDetail : MonoBehaviour
 {
@@ -20,12 +23,18 @@ public class PackageDetail : MonoBehaviour
     private void Awake()
     {
         InitUIName();
-        Test();
+        
     }
 
-    private void Test()
+    private void CleanPackageDetail()
     {
-        Refresh(GameManager.Instance.GetPackageLoaclData()[0],null);
+        Transform UIScrollView = transform.Find("Center/Scroll View");
+        //清空滚动容器中原本的物体
+        RectTransform scrollContent = UIScrollView.GetComponent<ScrollRect>().content;
+        for (int i = 0; i < scrollContent.childCount; i++)
+        {
+            Destroy(scrollContent.GetChild(i).gameObject);
+        }
     }
 
     private void InitUIName()
@@ -37,7 +46,7 @@ public class PackageDetail : MonoBehaviour
     }
 
     //刷新详情界面
-    public void Refresh(PackageLoaclItem packageLoaclData,PackagePanel uiParent)
+    public void Refresh(PackageLoaclItem packageLoaclData, PackagePanel uiParent)
     {
         //初始化信息
         this.uiParent = uiParent;
@@ -45,7 +54,7 @@ public class PackageDetail : MonoBehaviour
         this.packageLoaclData = packageLoaclData;
 
         //图片加载
-        Texture2D t=(Texture2D)Resources.Load(this.packageTableItem.imagePath);
+        Texture2D t = (Texture2D)Resources.Load(this.packageTableItem.imagePath);
         Sprite temp = Sprite.Create(t, new Rect(0, 0, t.width, t.height), new Vector2(0, 0));
         UIIcon.GetComponent<Image>().sprite = temp;
 
@@ -53,6 +62,14 @@ public class PackageDetail : MonoBehaviour
         UITitleText.GetComponent<TextMeshProUGUI>().text = packageTableItem.name;
 
         //详情加载
-        UIDetailText.GetComponent<TextMeshProUGUI>().text=packageTableItem.detailDescription;
+        if (packageLoaclData.type == 0 && UIManager.Instance.panelDict.ContainsKey(UIConst.PackageObjectPanel))
+        {
+            UIDetailText.GetComponent<TextMeshProUGUI>().text = packageTableItem.detailDescription;
+
+        }
+        else if (packageLoaclData.type == 1 && UIManager.Instance.panelDict.ContainsKey(UIConst.PackageWeaponPanel))
+        {
+            UIDetailText.GetComponent<TextMeshProUGUI>().text = packageLoaclData.WeaponDetailText;
+        } 
     }
 }

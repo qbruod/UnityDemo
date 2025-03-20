@@ -19,12 +19,13 @@ namespace Test
 
         public virtual void ClosePanel(string name)
         {
-            isRemove = true;
-            gameObject.SetActive(false);
-            Destroy(gameObject);
+            
 
             if (UIManager.Instance.panelDict.ContainsKey(name))
             {
+                isRemove = true;
+                gameObject.SetActive(false);
+                Destroy(gameObject);
                 UIManager.Instance.panelDict.Remove(name);
             }
         }

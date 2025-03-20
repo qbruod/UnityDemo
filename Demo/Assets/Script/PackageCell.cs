@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using test;
 
 public class PackageCell : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,IPointerExitHandler//述标对点击，进入和退出
 {
@@ -83,11 +84,14 @@ public class PackageCell : MonoBehaviour,IPointerClickHandler,IPointerEnterHandl
         {
             Sprite temp = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero);
             UIIcon.GetComponent<Image>().sprite = temp;
+            UINumText.GetComponent<TextMeshProUGUI>().text = packageLocalItem.num.ToString();
         }
         else
         {
             Debug.LogWarning($"图片加载失败：{PackageTableItem.imagePath}");
         }
+
+
     }
 
     public void OnPointerClick(PointerEventData eventData)

@@ -67,7 +67,8 @@ namespace test
             if(panelDict.TryGetValue(name, out panel))
             {
                 Debug.LogError("界面已打开：" + name);
-                return null;
+                panel= panelDict[name];
+                return panel;
             }
 
             string path = "";

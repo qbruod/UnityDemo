@@ -22,6 +22,7 @@ public class PackagePanel:BasePanel
     //记录鼠标选中的uid
     public string _chooseUid;
 
+
     //属性：从外部获取or修改Uid
     public string chooseUid
     {
@@ -75,9 +76,19 @@ public class PackagePanel:BasePanel
         //拿到背包数据并初始化滚动容器
         foreach(PackageLoaclItem localData in GameManager.Instance.GetPackageLoaclData())
         {
-            Transform PackageUIItem=GameObject.Instantiate(PackageUIItemPrefab.transform,scrollContent) as Transform;
-            PackageCell packageCell=PackageUIItem.GetComponent<PackageCell>();
-            packageCell.Refresh(localData, this);
+            if(localData.type == 0 && UIManager.Instance.panelDict.ContainsKey(UIConst.PackageObjectPanel))
+            {
+                Transform PackageUIItem = GameObject.Instantiate(PackageUIItemPrefab.transform, scrollContent) as Transform;
+                PackageCell packageCell = PackageUIItem.GetComponent<PackageCell>();
+                packageCell.Refresh(localData, this);
+            }
+            else if(localData.type == 1 &&UIManager.Instance.panelDict.ContainsKey(UIConst.PackageWeaponPanel))
+            {
+                Transform PackageUIItem = GameObject.Instantiate(PackageUIItemPrefab.transform, scrollContent) as Transform;
+                PackageCell packageCell = PackageUIItem.GetComponent<PackageCell>();
+                packageCell.Refresh(localData, this);
+            }
+
         }
     }
 
@@ -128,8 +139,16 @@ public class PackagePanel:BasePanel
 
     private void OnClickClose()
     {
-        ClosePanel(UIConst.PackageObjectPanel);
-        Time.timeScale = 1;
+        if (UIManager.Instance.panelDict.ContainsKey(UIConst.PackageObjectPanel))
+        {
+            ClosePanel(UIConst.PackageObjectPanel);
+            Time.timeScale = 1;
+        }
+        else if(UIManager.Instance.panelDict.ContainsKey(UIConst.PackageWeaponPanel))
+        {
+            ClosePanel(UIConst.PackageWeaponPanel);
+            Time.timeScale = 1;
+        }
     }
 
     private void OnClickWeapon()

@@ -57,10 +57,14 @@ public class PackageLoaclItem
     public int type;
     public int num;
     //只有type=1时填写。
-    public string WeaponDetailText=null;
     public int level;
+    public string WeaponDetailText= null;
+
     public override string ToString()
     {
         return string.Format("[id]:{0},num:{1}", id, num);
     }
+
+
+
 }

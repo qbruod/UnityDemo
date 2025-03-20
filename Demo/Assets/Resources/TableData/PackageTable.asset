@@ -17,19 +17,24 @@ MonoBehaviour:
     type: 0
     name: "\u2605\u82F9\u679C"
     detailDescription: "\u751F\u547D+10"
-    imagePath: Image/UI/ObjectIcon/01
+    imagePath: Image/UI/ObjectIcon/00
   - id: 1
     type: 0
     name: "\u2605\u80E1\u841D\u535C"
     detailDescription: "\u751F\u547D+5"
-    imagePath: Image/UI/ObjectIcon/02
+    imagePath: Image/UI/ObjectIcon/01
   - id: 2
     type: 0
     name: "\u2605\u8FA3\u6912"
     detailDescription: "\u901F\u5EA6+10"
-    imagePath: Image/UI/ObjectIcon/03
+    imagePath: Image/UI/ObjectIcon/02
   - id: 3
     type: 0
     name: "\u2605\u725B\u5976"
+    detailDescription: "\u751F\u547D+20"
+    imagePath: Image/UI/ObjectIcon/03
+  - id: 4
+    type: 1
+    name: "\u2605\u5251"
     detailDescription: "\u751F\u547D+20"
     imagePath: Image/UI/ObjectIcon/04
