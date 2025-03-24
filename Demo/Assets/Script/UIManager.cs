@@ -16,6 +16,10 @@ namespace test
         private Dictionary<string, GameObject> prefabDict;
         //已打开界面缓存字典
         public Dictionary<string, BasePanel> panelDict;
+        //PackageCell缓存字典
+        public Dictionary<int,PackageCell> packageCellIdDict;
+
+        public Dictionary<int,int> packageCountNumDict;
 
         private UIManager() 
         {
@@ -52,6 +56,8 @@ namespace test
         {
             prefabDict=new Dictionary<string, GameObject>();
             panelDict=new Dictionary<string, BasePanel>();
+            packageCellIdDict = new Dictionary<int, PackageCell>();
+            packageCountNumDict=new Dictionary<int, int>();
             pathDict = new Dictionary<string, string>()
             {
                 //界面名称，界面路径
@@ -108,7 +114,21 @@ namespace test
             panel.ClosePanel(name);
             return true;
         }
+
+        public void AddPackageCellDict(PackageLocalItem packageLocalItem,PackageCell packageCell)
+        {
+            packageCellIdDict.Add(packageLocalItem.id, packageCell);  
+        }
+
+        public void ClearPackageCellDict()
+        {
+            packageCellIdDict.Clear();
+            packageCountNumDict.Clear();
+        }
+
     }
+
+
 
 
 

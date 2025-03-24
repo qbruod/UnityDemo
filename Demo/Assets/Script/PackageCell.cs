@@ -16,12 +16,17 @@ public class PackageCell : MonoBehaviour,IPointerClickHandler,IPointerEnterHandl
     private Transform UIMouseOverAni;
 
     //当前物品的动态数据
-    private PackageLoaclItem packagrLocalData;
+    private PackageLocalItem _packagrLocalData;
     //当前物品的静态数据
     private PackageTableItem PackageTableItem;
     //当前物品的父物品
     private PackagePanel uiParent;
     
+    public PackageLocalItem PackageLocalItem
+    {
+        get { return _packagrLocalData; }
+    }
+
 
     private void Awake()
     {
@@ -57,10 +62,10 @@ public class PackageCell : MonoBehaviour,IPointerClickHandler,IPointerEnterHandl
     //    UINumText.GetComponent<TextMeshProUGUI>().text = packageLoaclItem.num.ToString();
 
     //}
-    public void Refresh(PackageLoaclItem packageLocalItem, PackagePanel uiParent)
+    public void Refresh(PackageLocalItem packageLocalItem, PackagePanel uiParent)
     {
         // 必须初始化基础数据
-        this.packagrLocalData = packageLocalItem;
+        this._packagrLocalData = packageLocalItem;
         this.PackageTableItem = GameManager.Instance.GetPackageItemById(packageLocalItem.id); // 关键初始化
         this.uiParent = uiParent;
 
@@ -84,7 +89,15 @@ public class PackageCell : MonoBehaviour,IPointerClickHandler,IPointerEnterHandl
         {
             Sprite temp = Sprite.Create(t, new Rect(0, 0, t.width, t.height), Vector2.zero);
             UIIcon.GetComponent<Image>().sprite = temp;
-            UINumText.GetComponent<TextMeshProUGUI>().text = packageLocalItem.num.ToString();
+            if(UIManager.Instance.panelDict.ContainsKey(UIConst.PackageObjectPanel))
+            {
+                UINumText.GetComponent<TextMeshProUGUI>().text = UIManager.Instance.packageCountNumDict[PackageTableItem.id].ToString();
+            }
+            else
+            {
+                UINumText.GetComponent<TextMeshProUGUI>().text = packageLocalItem.num.ToString();
+            }
+           
         }
         else
         {
@@ -97,20 +110,20 @@ public class PackageCell : MonoBehaviour,IPointerClickHandler,IPointerEnterHandl
     public void OnPointerClick(PointerEventData eventData)
     {
 
-        if (packagrLocalData == null || uiParent == null)
+        if (_packagrLocalData == null || uiParent == null)
         {
             Debug.LogError("点击事件数据异常: " +
-                          $"数据: {packagrLocalData} 父面板: {uiParent}");
+                          $"数据: {_packagrLocalData} 父面板: {uiParent}");
             return;
         }
 
-        if (this.uiParent.chooseUid == this.packagrLocalData.uid)
+        if (this.uiParent.chooseUid == this._packagrLocalData.uid)
         {
             return;
         }
 
         //选中物体与父物体显示内容 相同
-        if (this.uiParent.chooseUid==this.packagrLocalData.uid)
+        if (this.uiParent.chooseUid==this._packagrLocalData.uid)
         {
             return;
         }
@@ -120,7 +133,7 @@ public class PackageCell : MonoBehaviour,IPointerClickHandler,IPointerEnterHandl
             Transform oldCell = uiParent.currentSelectedItem.GetComponent<PackageCell>().UISelectAni;
             oldCell.gameObject.SetActive(false);
         }
-        this.uiParent.chooseUid=this.packagrLocalData.uid;
+        this.uiParent.chooseUid=this._packagrLocalData.uid;
         uiParent.currentSelectedItem = this.gameObject;
         //设置in，播放动画
         UISelectAni.gameObject.SetActive(true);

@@ -36,5 +36,10 @@ MonoBehaviour:
   - id: 4
     type: 1
     name: "\u2605\u5251"
-    detailDescription: "\u751F\u547D+20"
+    detailDescription: 
+    imagePath: Image/UI/ObjectIcon/04
+  - id: 5
+    type: 1
+    name: "\u2605\u5251"
+    detailDescription: 
     imagePath: Image/UI/ObjectIcon/04

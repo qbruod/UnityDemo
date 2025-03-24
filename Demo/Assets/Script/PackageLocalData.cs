@@ -5,7 +5,7 @@ using UnityEngine;
 public class PackageLocalData
 {
     private static PackageLocalData _instance;
-    public List<PackageLoaclItem> item;//缓存所有物品的动态信息
+    public List<PackageLocalItem> item;//缓存所有物品的动态信息
 
     public static PackageLocalData Instance
     {
@@ -27,7 +27,7 @@ public class PackageLocalData
         PlayerPrefs.Save();
     }
 
-    public List<PackageLoaclItem> LoadPackage()
+    public List<PackageLocalItem> LoadPackage()
     {
         if (item != null)
         {
@@ -42,15 +42,19 @@ public class PackageLocalData
         }
         else
         {
-            item = new List<PackageLoaclItem>();
+            item = new List<PackageLocalItem>();
             return item;
         }
     }
+
+
+
+
 }
 
 
 [System.Serializable]
-public class PackageLoaclItem
+public class PackageLocalItem
 {
     public string uid;
     public int id;

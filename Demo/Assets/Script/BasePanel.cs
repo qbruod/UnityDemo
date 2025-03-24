@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using test;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 namespace Test
 {
@@ -19,7 +20,7 @@ namespace Test
 
         public virtual void ClosePanel(string name)
         {
-            
+            Debug.Log("444");
 
             if (UIManager.Instance.panelDict.ContainsKey(name))
             {
@@ -27,6 +28,12 @@ namespace Test
                 gameObject.SetActive(false);
                 Destroy(gameObject);
                 UIManager.Instance.panelDict.Remove(name);
+                List<PackageLocalItem> readItem = PackageLocalData.Instance.LoadPackage();
+
+                UIManager.Instance.ClearPackageCellDict();
+
+
+                
             }
         }
     }

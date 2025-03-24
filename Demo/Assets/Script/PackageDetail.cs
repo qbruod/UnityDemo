@@ -15,7 +15,7 @@ public class PackageDetail : MonoBehaviour
     private Transform UIDetailText;
     private Transform UIUsingBtn;
 
-    private PackageLoaclItem packageLoaclData;
+    private PackageLocalItem packageLoaclData;
     private PackageTableItem packageTableItem;
 
     private PackagePanel uiParent;
@@ -43,10 +43,11 @@ public class PackageDetail : MonoBehaviour
         UITitleText = transform.Find("Top/ObjectTitleText (TMP)");
         UIDetailText = transform.Find("Bottom/ObjectDetailText (TMP)");
         UIUsingBtn = transform.Find("Bottom/UsingButton");
+
     }
 
     //刷新详情界面
-    public void Refresh(PackageLoaclItem packageLoaclData, PackagePanel uiParent)
+    public void Refresh(PackageLocalItem packageLoaclData, PackagePanel uiParent)
     {
         //初始化信息
         this.uiParent = uiParent;
@@ -69,7 +70,9 @@ public class PackageDetail : MonoBehaviour
         }
         else if (packageLoaclData.type == 1 && UIManager.Instance.panelDict.ContainsKey(UIConst.PackageWeaponPanel))
         {
+            Transform LevelText = transform.Find("Top/ObjectLevel");
             UIDetailText.GetComponent<TextMeshProUGUI>().text = packageLoaclData.WeaponDetailText;
+            LevelText.GetComponent<TextMeshProUGUI>().text = "等级：" + packageLoaclData.level.ToString();
         } 
     }
 }

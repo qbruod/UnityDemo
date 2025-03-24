@@ -21,21 +21,21 @@ public class NewBehaviourScript
     [MenuItem("CMCmd/创建背包测试数据")]
     public static void CreateLoaclPackageData()
     {
-        PackageLocalData.Instance.item = new List<PackageLoaclItem>();
+        PackageLocalData.Instance.item = new List<PackageLocalItem>();
         for (int i = 0; i < 4; i++)
         {
-            PackageLoaclItem packageLoaclItem = new()
+            PackageLocalItem packageLoaclItem = new()
             {
                 uid = Guid.NewGuid().ToString(),
-                id = i,
+                id = 1,
                 type = 0,
                 num = i,
-                level = i,
+                level = 1,
 
             };
             PackageLocalData.Instance.item.Add(packageLoaclItem);
         }
-        PackageLoaclItem packageLoaclItem2 = new()
+        PackageLocalItem packageLoaclItem2 = new()
         {
             uid = Guid.NewGuid().ToString(),
             id = 4,
@@ -45,6 +45,16 @@ public class NewBehaviourScript
             WeaponDetailText = "攻击力+" + 4 * 0.5,
         };
         PackageLocalData.Instance.item.Add(packageLoaclItem2);
+        PackageLocalItem packageLoaclItem3 = new()
+        {
+            uid = Guid.NewGuid().ToString(),
+            id = 4,
+            type = 1,
+            num = 3,
+            level = 4,
+            WeaponDetailText = "攻击力+" + 4 * 0.5,
+        };
+        PackageLocalData.Instance.item.Add(packageLoaclItem3);
         PackageLocalData.Instance.SavePackage();
     }
 
@@ -53,8 +63,8 @@ public class NewBehaviourScript
     [MenuItem("CMCmd/读取背包测试数据")]
     public static void ReadLocalPackageData()
     {
-        List<PackageLoaclItem> readItem=PackageLocalData.Instance.LoadPackage();
-        foreach (PackageLoaclItem item in readItem)
+        List<PackageLocalItem> readItem=PackageLocalData.Instance.LoadPackage();
+        foreach (PackageLocalItem item in readItem)
         {
             Debug.Log(item);
         }

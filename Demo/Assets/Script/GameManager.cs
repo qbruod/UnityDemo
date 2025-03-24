@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager _Instance;
     private PackageTable packageTable;
+
     public static GameManager Instance
     {
         get
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
     }
 
     //加载动态数据
-    public List<PackageLoaclItem> GetPackageLoaclData()
+    public List<PackageLocalItem> GetPackageLoaclData()
     {
         return PackageLocalData.Instance.LoadPackage();
     }
@@ -64,10 +65,10 @@ public class GameManager : MonoBehaviour
 
 
     //根据uid拿到动态数据指定项
-    public PackageLoaclItem GetPackageLoaclItemByUid(string uid)
+    public PackageLocalItem GetPackageLoaclItemByUid(string uid)
     {
-        List<PackageLoaclItem> packageDataList=GetPackageLoaclData();
-        foreach (PackageLoaclItem item in packageDataList)
+        List<PackageLocalItem> packageDataList=GetPackageLoaclData();
+        foreach (PackageLocalItem item in packageDataList)
         {
             if (item.uid == uid)
             {
@@ -78,9 +79,9 @@ public class GameManager : MonoBehaviour
     }
 
     //得到排序后的背包物品
-    public List<PackageLoaclItem> GetSortPackageLoacalData()
+    public List<PackageLocalItem> GetSortPackageLoacalData()
     { 
-        List<PackageLoaclItem> localItems= GetPackageLoaclData();
+        List<PackageLocalItem> localItems= GetPackageLoaclData();
         localItems.Sort(new PackageItemComparer());
         return localItems;
     }
@@ -89,9 +90,9 @@ public class GameManager : MonoBehaviour
 }
 
 //背包排序方法  对比id->level->num
-public class PackageItemComparer : IComparer<PackageLoaclItem>
+public class PackageItemComparer : IComparer<PackageLocalItem>
 {
-    public int Compare(PackageLoaclItem a, PackageLoaclItem b)
+    public int Compare(PackageLocalItem a, PackageLocalItem b)
     {
         PackageTableItem x=GameManager.Instance.GetPackageItemById(a.id);
         PackageTableItem y=GameManager.Instance.GetPackageItemById(b.id);

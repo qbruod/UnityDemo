@@ -71,22 +71,38 @@ public class PackagePanel:BasePanel
         for(int i = 0; i < scrollContent.childCount; i++)
         {
             Destroy(scrollContent.GetChild(i).gameObject);
+            
         }
+        UIManager.Instance.ClearPackageCellDict();
 
         //拿到背包数据并初始化滚动容器
-        foreach(PackageLoaclItem localData in GameManager.Instance.GetPackageLoaclData())
+        foreach (PackageLocalItem localData in GameManager.Instance.GetPackageLoaclData())
         {
             if(localData.type == 0 && UIManager.Instance.panelDict.ContainsKey(UIConst.PackageObjectPanel))
             {
-                Transform PackageUIItem = GameObject.Instantiate(PackageUIItemPrefab.transform, scrollContent) as Transform;
-                PackageCell packageCell = PackageUIItem.GetComponent<PackageCell>();
-                packageCell.Refresh(localData, this);
+                if(UIManager.Instance.packageCellIdDict.ContainsKey(localData.id))
+                {
+                    PackageCell packageCell = UIManager.Instance.packageCellIdDict[localData.id];
+                    UIManager.Instance.packageCountNumDict[localData.id] += localData.num;
+                    packageCell.Refresh(packageCell.PackageLocalItem, this);
+                }
+                else 
+                {
+                    Transform PackageUIItem = GameObject.Instantiate(PackageUIItemPrefab.transform, scrollContent) as Transform;
+                    PackageCell packageCell = PackageUIItem.GetComponent<PackageCell>();
+                    UIManager.Instance.packageCountNumDict.Add(localData.id, localData.num);
+                    packageCell.Refresh(localData, this);
+                    UIManager.Instance.AddPackageCellDict(localData, packageCell);
+                }
+
             }
             else if(localData.type == 1 &&UIManager.Instance.panelDict.ContainsKey(UIConst.PackageWeaponPanel))
             {
+
                 Transform PackageUIItem = GameObject.Instantiate(PackageUIItemPrefab.transform, scrollContent) as Transform;
                 PackageCell packageCell = PackageUIItem.GetComponent<PackageCell>();
                 packageCell.Refresh(localData, this);
+                
             }
 
         }
@@ -102,12 +118,13 @@ public class PackagePanel:BasePanel
             for (int i = 0; i < UIDetailPanel.childCount; i++)
             {
                 Destroy(UIDetailPanel.GetChild(i).gameObject);
+
             }
         }
         else
         {
             //拿到物品数据并初始化详情页
-            PackageLoaclItem loaclItem = GameManager.Instance.GetPackageLoaclItemByUid(chooseUid);
+            PackageLocalItem loaclItem = GameManager.Instance.GetPackageLoaclItemByUid(chooseUid);
             UIDetailPanel.GetComponent<PackageDetail>().Refresh(loaclItem, this);
         }
         
