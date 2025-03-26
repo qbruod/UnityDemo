@@ -18,12 +18,15 @@ namespace test
         public Dictionary<string, BasePanel> panelDict;
         //PackageCell缓存字典
         public Dictionary<int,PackageCell> packageCellIdDict;
-
+        //每个id对应的num总数
         public Dictionary<int,int> packageCountNumDict;
 
-        private UIManager() 
+        public UIManager() 
         {
             this.InitDicts();
+            // 初始化时订阅全局事件
+            GameEvents.OnPanelOpened += HandlePanelOpen;
+            GameEvents.OnInventoryDataChanged += HandleGlobalInventoryChange;
         }
         public static UIManager Instance
         {
@@ -74,6 +77,7 @@ namespace test
             {
                 Debug.LogError("界面已打开：" + name);
                 panel= panelDict[name];
+                panel.gameObject.SetActive(true);
                 return panel;
             }
 
@@ -93,12 +97,22 @@ namespace test
                 prefabDict.Add(name, panelPrefab);
             }
 
-            //打开界面
-            Time.timeScale = 0f;
-            GameObject panelObject=GameObject.Instantiate(panelPrefab,UIRoot,false);//实例化界面
-            panel=panelObject.GetComponent<BasePanel>();
-            panelDict.Add(name,panel);
-            return panel;
+            if (UIRoot.Find(name))
+            {
+                Transform inactivationPanel = UIRoot.Find(name);
+                panel = inactivationPanel.GetComponent<BasePanel>();
+                panel.gameObject.SetActive(true);
+                panelDict.Add(name, panel);
+                return panel;
+            }
+            else
+            {
+                //打开界面
+                GameObject panelObject = GameObject.Instantiate(panelPrefab, UIRoot, false);//实例化界面
+                panel = panelObject.GetComponent<BasePanel>();
+                panelDict.Add(name, panel);
+                return panel;
+            }
         }
 
         //关闭界面
@@ -124,6 +138,33 @@ namespace test
         {
             packageCellIdDict.Clear();
             packageCountNumDict.Clear();
+        }
+
+        /// <summary>
+        /// 处理面板打开事件
+        /// </summary>
+        /// <param name="panelName">被打开的面板名称</param>
+        private void HandlePanelOpen(string panelName)
+        {
+            if (panelName == UIConst.PackageObjectPanel)
+            {
+                Time.timeScale = 0f; // 暂停游戏时间
+            }
+        }
+
+        /// <summary>
+        /// 处理全局背包数据变化事件
+        /// </summary>
+        private void HandleGlobalInventoryChange()
+        {
+            // 自动刷新所有打开的背包相关面板
+            foreach (var panel in panelDict.Values)
+            {
+                if (panel is PackagePanel)
+                {
+                    (panel as PackagePanel).RefreshUI(); // 刷新UI
+                }
+            }
         }
 
     }

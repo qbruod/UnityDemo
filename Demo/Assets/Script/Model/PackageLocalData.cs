@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class PackageLocalData
     }
 
     
+    //存储背包数据到
     public void SavePackage()
     {
         string inventoryJson=JsonUtility.ToJson(this);//存储信息
@@ -27,6 +29,7 @@ public class PackageLocalData
         PlayerPrefs.Save();
     }
 
+    //加载背包数据
     public List<PackageLocalItem> LoadPackage()
     {
         if (item != null)
@@ -47,8 +50,30 @@ public class PackageLocalData
         }
     }
 
+    //添加新物品到背包
+    /// <param name="newItem">要添加的物品</param>
+    public void AddItem(PackageLocalItem newItem)
+    {
+        item.Add(newItem);
+        SavePackage();
+    }
 
+    //从背包中移除物品
+    /// <param name="target">要移除的物品PackageLocalItem</param>
+    public void RemoveItem(PackageLocalItem target)
+    {
+        item.Remove(target);
+        SavePackage();
+    }
 
+    //更新背包中物品
+    /// <param name="updatedItem">更新后的物品</param>
+    public void UpdateItem(PackageLocalItem updatedItem)
+    {
+        var index = item.FindIndex(i => i.uid == updatedItem.uid);
+        item[index] = updatedItem;
+        SavePackage();
+    }
 
 }
 

@@ -8,8 +8,8 @@ namespace Test
 {
     public class BasePanel : MonoBehaviour
     {
-        
-        protected bool isRemove=false;//当前页面是否被关闭
+
+        protected bool isRemove = false;//当前页面是否被关闭
         protected new string name;//页面名称
 
         public virtual void OpenPanel(string name)
@@ -26,16 +26,34 @@ namespace Test
             {
                 isRemove = true;
                 gameObject.SetActive(false);
-                Destroy(gameObject);
+                
                 UIManager.Instance.panelDict.Remove(name);
                 List<PackageLocalItem> readItem = PackageLocalData.Instance.LoadPackage();
 
                 UIManager.Instance.ClearPackageCellDict();
 
 
-                
+
             }
         }
-    }
+        //当面板启用时调用，供子类重写
+        protected virtual void OnEnable()
+        {
+            // 用于子类的订阅逻辑
+        }
 
+
+        //当面板禁用时调用，供子类重写
+        protected virtual void OnDisable()
+        {
+            // 用于子类的取消订阅逻辑
+        }
+
+        protected virtual void Awake()
+        {
+
+        }
+
+
+    }
 }

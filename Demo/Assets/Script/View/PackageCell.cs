@@ -33,6 +33,23 @@ public class PackageCell : MonoBehaviour,IPointerClickHandler,IPointerEnterHandl
         InitUICell();
     }
 
+    /// <summary>
+    /// 当单元格启用时，订阅物品更新事件
+    /// </summary>
+    private void OnEnable()
+    {
+        GameEvents.OnItemUpdated += HandleItemUpdate;
+    }
+
+    /// <summary>
+    /// 当单元格禁用时，取消订阅物品更新事件
+    /// </summary>
+    private void OnDisable()
+    {
+        GameEvents.OnItemUpdated -= HandleItemUpdate;
+    }
+
+
     private void InitUICell()
     {
         UIIcon = transform.Find("Top/Image");
@@ -46,23 +63,54 @@ public class PackageCell : MonoBehaviour,IPointerClickHandler,IPointerEnterHandl
         UIMouseOverAni.gameObject.SetActive(false);
     }
 
-    ////刷新物品状态
-    //public void Refresh(PackageLoaclItem packageLoaclItem,PackagePanel uiParent)
-    //{
-    //    //数据初始化
-    //    this.packagrLocalData = packageLoaclItem;
-    //    this.PackageTableItem = GameManager.Instance.GetPackageItemById(packagrLocalData.id);
-    //    this.uiParent = uiParent;
-    //    //更新cell中物品图片
-    //    Texture2D t = (Texture2D)Resources.Load(this.PackageTableItem.imagePath);
-    //    Debug.Log(this.PackageTableItem.imagePath);
-    //    Sprite temp = Sprite.Create(t, new Rect(0, 0, t.width, t.height), new Vector2(0, 0));
-    //    UIIcon.GetComponent<Image>().sprite = temp;
-    //    //更新物品数量
-    //    UINumText.GetComponent<TextMeshProUGUI>().text = packageLoaclItem.num.ToString();
+    // 复位方法，用于在Cell被回收时重置状态
+    public void ResetCell()
+    {
+        _packagrLocalData = null; // 清空动态数据
+        uiParent = null; // 清空父级引用
+        UISelectAni.gameObject.SetActive(false); // 关闭选中动画
+        UIMouseOverAni.gameObject.SetActive(false); // 关闭鼠标悬停动画
 
-    //}
-    public void Refresh(PackageLocalItem packageLocalItem, PackagePanel uiParent)
+        // 重置UI元素
+        UIIcon.GetComponent<Image>().sprite = null; // 清空图标
+        UINumText.GetComponent<TextMeshProUGUI>().text = ""; // 清空数量文本
+
+        // 重置Transform属性
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+        transform.localScale = Vector3.one;
+    }
+
+    /// <summary>
+    /// 处理物品更新事件
+    /// </summary>
+    /// <param name="updatedItem">更新后的物品</param>
+    private void HandleItemUpdate(PackageLocalItem updatedItem)
+    {
+        if (updatedItem.uid == _packagrLocalData?.uid) // 如果当前单元格的物品被更新
+        {
+            Refresh(updatedItem, this.uiParent); // 刷新单元格
+        }
+    }
+
+
+////刷新物品状态
+//public void Refresh(PackageLoaclItem packageLoaclItem,PackagePanel uiParent)
+//{
+//    //数据初始化
+//    this.packagrLocalData = packageLoaclItem;
+//    this.PackageTableItem = GameManager.Instance.GetPackageItemById(packagrLocalData.id);
+//    this.uiParent = uiParent;
+//    //更新cell中物品图片
+//    Texture2D t = (Texture2D)Resources.Load(this.PackageTableItem.imagePath);
+//    Debug.Log(this.PackageTableItem.imagePath);
+//    Sprite temp = Sprite.Create(t, new Rect(0, 0, t.width, t.height), new Vector2(0, 0));
+//    UIIcon.GetComponent<Image>().sprite = temp;
+//    //更新物品数量
+//    UINumText.GetComponent<TextMeshProUGUI>().text = packageLoaclItem.num.ToString();
+
+//}
+public void Refresh(PackageLocalItem packageLocalItem, PackagePanel uiParent)
     {
         // 必须初始化基础数据
         this._packagrLocalData = packageLocalItem;

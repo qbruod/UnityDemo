@@ -7,6 +7,43 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager _Instance;
     private PackageTable packageTable;
+    public PackageController _packageController;
+    private void Awake()
+    {
+        _Instance = this;
+        DontDestroyOnLoad(gameObject);//确保gameObject在场景切换时不被摧毁
+        // 初始化Service
+        var uiManager = UIManager.Instance;
+
+        // 初始化Model
+        var packageData = PackageLocalData.Instance;
+
+        // 创建Controller并注入依赖
+        _packageController = new PackageController(packageData, uiManager);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q)) // 按测Q试添加物品
+        {
+            AddTestItem();
+        }
+    }
+
+    void AddTestItem()
+    {
+        var newItem = new PackageLocalItem()
+        {
+            uid = System.Guid.NewGuid().ToString(),
+            id = 4, // 确保PackageTable中存在这个id
+            type = 1,
+            num = 1
+        };
+
+        // 通过Controller调用
+        GameManager.Instance._packageController.AddItem(newItem); // Controller负责触发事件
+        Debug.Log($"添加测试物品: {newItem}");
+    }
 
     public static GameManager Instance
     {
@@ -16,11 +53,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        _Instance = this;
-        DontDestroyOnLoad(gameObject);//确保gameObject在场景切换时不被摧毁
-    }
 
     private void Start()
     {
@@ -30,7 +62,9 @@ public class GameManager : MonoBehaviour
         // 初始化动态数据
         GetPackageLoaclData();
 
-        UIManager.Instance.OpenPanel(UIConst.PackageObjectPanel);
+        // 初始化后触发首次刷新
+        GameEvents.TriggerInventoryChanged(); // 触发背包数据变化事件
+
     }
 
     //加载静态数据
@@ -108,4 +142,10 @@ public class PackageItemComparer : IComparer<PackageLocalItem>
         }
         return idComparison;
     }
+}
+
+public class GameConst
+{
+    public const int PackageTypeFood = 0;
+    public const int PackageTypeWeapon = 1;
 }

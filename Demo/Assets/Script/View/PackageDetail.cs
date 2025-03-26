@@ -63,12 +63,12 @@ public class PackageDetail : MonoBehaviour
         UITitleText.GetComponent<TextMeshProUGUI>().text = packageTableItem.name;
 
         //详情加载
-        if (packageLoaclData.type == 0 && UIManager.Instance.panelDict.ContainsKey(UIConst.PackageObjectPanel))
+        if (packageLoaclData.type == GameConst.PackageTypeFood && UIManager.Instance.panelDict.ContainsKey(UIConst.PackageObjectPanel))
         {
             UIDetailText.GetComponent<TextMeshProUGUI>().text = packageTableItem.detailDescription;
 
         }
-        else if (packageLoaclData.type == 1 && UIManager.Instance.panelDict.ContainsKey(UIConst.PackageWeaponPanel))
+        else if (packageLoaclData.type == GameConst.PackageTypeWeapon && UIManager.Instance.panelDict.ContainsKey(UIConst.PackageWeaponPanel))
         {
             Transform LevelText = transform.Find("Top/ObjectLevel");
             UIDetailText.GetComponent<TextMeshProUGUI>().text = packageLoaclData.WeaponDetailText;
