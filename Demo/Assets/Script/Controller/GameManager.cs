@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public static GameManager _Instance;
     private PackageTable packageTable;
     public PackageController _packageController;
+    public float walkSpeed;
+    public float runSpeed;
     private void Awake()
     {
         _Instance = this;
@@ -18,6 +20,8 @@ public class GameManager : MonoBehaviour
         // 初始化Model
         var packageData = PackageLocalData.Instance;
 
+        walkSpeed = 2f;
+        runSpeed = 4f;
         // 创建Controller并注入依赖
         _packageController = new PackageController(packageData, uiManager);
     }
@@ -35,8 +39,8 @@ public class GameManager : MonoBehaviour
         var newItem = new PackageLocalItem()
         {
             uid = System.Guid.NewGuid().ToString(),
-            id = 4, // 确保PackageTable中存在这个id
-            type = 1,
+            id = 1, // 确保PackageTable中存在这个id
+            type = 0,
             num = 1
         };
 

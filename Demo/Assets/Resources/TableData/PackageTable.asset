@@ -26,7 +26,7 @@ MonoBehaviour:
   - id: 2
     type: 0
     name: "\u2605\u8FA3\u6912"
-    detailDescription: "\u901F\u5EA6+10"
+    detailDescription: "\u901F\u5EA6+10\uFF0C\u6301\u7EED\u5341\u79D2"
     imagePath: Image/UI/ObjectIcon/02
   - id: 3
     type: 0

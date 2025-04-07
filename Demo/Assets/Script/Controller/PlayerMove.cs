@@ -18,8 +18,8 @@ public class PlayerMove : MonoBehaviour
 
     float currentSpeed;//当前实际运动速度
     float targetSpeed;//想要达到的速度
-    float walkSpeed=2f;
-    float runSpeed = 4f;
+    public float walkSpeed=2f;
+    public float runSpeed = 5f;
 
     
     void Start()

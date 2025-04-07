@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using test;
 
-public class PackageCell : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,IPointerExitHandler//述标对点击，进入和退出
+public class PackageCell : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,IPointerExitHandler//鼠标对点击，进入和退出
 {
     private Transform UIIcon;
     private Transform UISelect;
@@ -162,11 +162,6 @@ public void Refresh(PackageLocalItem packageLocalItem, PackagePanel uiParent)
         {
             Debug.LogError("点击事件数据异常: " +
                           $"数据: {_packagrLocalData} 父面板: {uiParent}");
-            return;
-        }
-
-        if (this.uiParent.chooseUid == this._packagrLocalData.uid)
-        {
             return;
         }
 

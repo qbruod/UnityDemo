@@ -27,7 +27,7 @@ public class NewBehaviourScript
             PackageLocalItem packageLoaclItem = new()
             {
                 uid = Guid.NewGuid().ToString(),
-                id = 1,
+                id = 2,
                 type = 0,
                 num = i+1,
                 level = 1,

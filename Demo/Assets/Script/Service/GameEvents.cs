@@ -16,6 +16,10 @@ public static class GameEvents
     public static event Action<string> OnPanelOpened; // 当面板打开时触发
     public static event Action<string> OnPanelClosed; // 当面板关闭时触发
 
+    //背包物品使用事件
+    public static event Action<int?> OnUsingBlood;//当食物可加血时触发
+    public static event Action<int?> OnUsingSpeed;//当食物可加速时触发
+    public static event Action<int?> OnUsingATK;//当武器可加攻击力时触发
 
     //触发背包数据变化事件
     public static void TriggerInventoryChanged() => OnInventoryDataChanged?.Invoke();
@@ -39,5 +43,11 @@ public static class GameEvents
     //触发面板关闭事件
     /// <param name="panelName">被关闭的面板名称</param>
     public static void TriggerPanelClose(string panelName) => OnPanelClosed?.Invoke(panelName);
+
+    public static void TriggerBtnBlood(int? AddBlood)=> OnUsingBlood?.Invoke(AddBlood);
+
+    public static void TriggerBtnSpeed(int? SpeedUp)=>OnUsingSpeed?.Invoke(SpeedUp);
+
+    public static void TriggerBtnAtk(int? AddATK)=>OnUsingATK?.Invoke(AddATK);
 
 }
